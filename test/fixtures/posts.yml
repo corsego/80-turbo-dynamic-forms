@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  body: MyText
+  access: MyString
+  passcode: MyString
+
+two:
+  body: MyText
+  access: MyString
+  passcode: MyString
