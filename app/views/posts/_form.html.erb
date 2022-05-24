@@ -16,15 +16,27 @@
     <%= form.text_area :body %>
   </div>
 
-  <div>
-    <%= form.label :access, style: "display: block" %>
-    <%= form.text_field :access %>
+  <div id="passcode-time">hello</div>
+
+  <div data-controller="form-element">
+    <%= form.button "Validate", formaction: new_post_path, formmethod: :get, data: { turbo_frame: :passcode_field, form_element_target: "submitbtn" } %>
+
+    <div>
+      <%= form.label :access, style: "display: block" %>
+      <%= form.select :access, Post.accesses, {include_blank: true}, { data: { action: "change->form-element#remotesubmit"}} %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :passcode, style: "display: block" %>
-    <%= form.text_field :passcode %>
-  </div>
+  <%= turbo_frame_tag :passcode_field do %>
+    <%= post.passcode_protected? %>
+    <% if post.passcode_protected? %>
+      <%= turbo_stream.update "passcode-time", html: Time.zone.now %>
+    <div>
+      <%= form.label :passcode, style: "display: block" %>
+      <%= form.text_field :passcode %>
+    </div>
+    <% end %>
+  <% end %>
 
   <div>
     <%= form.submit %>
